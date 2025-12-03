@@ -13,6 +13,7 @@ void shell_loop(void){
 	int status;
 
 	do{
+		print('> ');	
 		line = read_line();
 		args = split_line(line);
 		status = execute(args);
@@ -22,6 +23,7 @@ void shell_loop(void){
 	}while(status);
 }
 
+#define SHELL_BUFSIZE 1024
 char *read_line(void){
 	int bufsize = SHELL_BUFSIZE;
 	char *buffer = malloc(size_of(char) * bufsize);
@@ -38,16 +40,19 @@ char *read_line(void){
 		if (c == EOF || c == '\n'){
 			buffer[position] = '\0';	
 			return buffer;
-		else{
+		}else{
 			buffer[position] = c;
-		}
-	if(position >= bufsize){
-		bufsize += SHELL_BUFSIZE;
-		buffer = realloc(buffer,bufsize);
+		}	
+		position++;
+
+		if(position >= bufsize){
+			bufsize += SHELL_BUFSIZE;
+			buffer = realloc(buffer,bufsize);
 		
-		if (!buffer){
-			fprintf(stderr,"shell: error allocating memory to buffer");
-			exit (EXIT_FAILURE);
+			if (!buffer){
+				fprintf(stderr,"shell: error allocating memory to buffer");
+				exit (EXIT_FAILURE);
+			}
 		}
 	}
 }
