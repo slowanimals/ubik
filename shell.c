@@ -93,6 +93,29 @@ int shell_launch(char **args){
 }
 
 
+int shell_cd(char **args);
+int shell_help(char **args);
+int shell_exit(char **args);
+
+char *builtin_str[]{
+	"cd",
+	"help",
+	"exit"
+};
+
+char (*builtin_func[])(char **args){
+	&shell_cd;
+	&shell_help;
+	&shell_exit;
+};
+
+int builtin_size(){
+	return sizeof(builtin_str)/sizeof(char*);
+};
+
+
+
+
 void shell_loop(void){
 	char *line;
 	char **args;
