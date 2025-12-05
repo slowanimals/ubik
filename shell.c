@@ -141,6 +141,19 @@ int shell_exit(char **args){
 }
 
 
+//execute
+int shell_execute(char **args){
+	if(args[0] == NULL){
+		return 1;
+	}
+	for (int i = 0; i < builtin_size(); i++){
+		if(strcmp(args[0],builtin_str[i]) == 0){
+			return (*builtin_func[i])(args);	
+		}
+	}
+	return shell_launch(args);
+}
+
 void shell_loop(void){
 	char *line;
 	char **args;
@@ -160,7 +173,7 @@ void shell_loop(void){
 
 int main(int argc, char **argv){
 	
-	//shell_loop();
+	shell_loop();
 
 	return EXIT_SUCCESS;
 }
