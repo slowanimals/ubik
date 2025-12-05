@@ -86,7 +86,7 @@ int shell_launch(char **args){
 		perror("shell: error forking");
 	} else {
 		do{
-			wpid(pid, &status, WUNTRACED);	
+			wpid = waitpid(pid, &status, WUNTRACED);	
 		} while(!WIFEXITED(status) && !WIFSIGNALED(status));
 	}
 	return 1;	
@@ -97,21 +97,21 @@ int shell_cd(char **args);
 int shell_help(char **args);
 int shell_exit(char **args);
 
-char *builtin_str[]{
+char *builtin_str[] = {
 	"cd",
 	"help",
 	"exit"
 };
 
-char (*builtin_func[])(char **args){
-	&shell_cd;
-	&shell_help;
-	&shell_exit;
+int (*builtin_func[])(char **args) = {
+	&shell_cd,
+	&shell_help,
+	&shell_exit
 };
 
 int builtin_size(){
 	return sizeof(builtin_str)/sizeof(char*);
-};
+}
 
 
 
