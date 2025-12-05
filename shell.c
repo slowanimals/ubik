@@ -4,28 +4,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
-int main(int argc, char **argv){
-	
-	shell_loop();
 
-	return EXIT_SUCCESS;
-}
-
-void shell_loop(void){
-	char *line;
-	char **args;
-	int status;
-
-	do{
-		print('> ');	
-		line = read_line();
-		args = split_line(line);
-		status = execute(args);
-		free(line);
-		free(args);
-
-	}while(status);
-}
 
 #define LINE_BUFSIZE 1024
 char *read_line(void){
@@ -62,7 +41,7 @@ char *read_line(void){
 
 #define TOK_SIZE 64
 #define DELIM "\t\r\a\n"
-def char **split_line(char *line){
+char **split_line(char *line){
 	int bufsize = TOK_SIZE;
 	char **tokens = malloc(sizeof(char*) * bufsize);
 	char *token;
@@ -92,3 +71,48 @@ def char **split_line(char *line){
 	return tokens;
 }
 
+int shell_launch(char **args){
+	pid_t pid, wpid;
+	int status;
+	
+	pid = fork();
+	
+	if (pid == 0) {
+		if(execvp(args[0],args) == -1){
+			perror("shell: error executing file");
+		}		
+		exit(EXIT_FAILURE);	
+	} else if (pid < 0){
+		perror("shell: error forking");
+	} else {
+		do{
+			wpid(pid, &status, WUNTRACED);	
+		} while(!WIFEXITED(status) && !WIFSIGNALED(status));
+	}
+	return 1;	
+}
+
+
+void shell_loop(void){
+	char *line;
+	char **args;
+	int status;
+
+	do{
+		printf("> ");	
+		line = read_line();
+		args = split_line(line);
+		status = shell_execute(args);
+		free(line);
+		free(args);
+
+	}while(status);
+}
+
+
+int main(int argc, char **argv){
+	
+	//shell_loop();
+
+	return EXIT_SUCCESS;
+}
