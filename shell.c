@@ -113,7 +113,32 @@ int builtin_size(){
 	return sizeof(builtin_str)/sizeof(char*);
 }
 
+//built in implementation
+int shell_cd(char **args){
+	if (args[1] == NULL){
+		fprintf(stderr, "shell: Expected argument after \"cd\"\n");
+	} else {
+		if (chdir(args[1]) != 0){
+			perror("shell: cd failure");	
+		}	
+	}
+	return 1;
+}
 
+int shell_help(char **args){
+	printf("Kaush's Shell\n");
+	printf("Created December 2025\n");
+	printf("Built in commands:\n");
+	
+	for (int i = 0; i < builtin_size(); i++){
+		printf(" %s\n", builtin_str[i]);
+	}
+	return 1;
+}
+
+int shell_exit(char **args){
+	return 0;
+}
 
 
 void shell_loop(void){
