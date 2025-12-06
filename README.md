@@ -1,9 +1,8 @@
 # Shell (C)
 
-Created: December 1, 2025 7:50 PM
-Last Modified: December 4, 2025 8:31 PM
+Adapted from
 Link: https://brennan.io/2015/01/16/write-a-shell-in-c/
-Topic: Programming
+My own notes for future reference (via Notion)
 
 # Basic Functionality
 
