@@ -1,6 +1,6 @@
 # Custom Shell (C)
 
-Adapted from: https://brennan.io/2015/01/16/write-a-shell-in-c/  
+Learned from: https://brennan.io/2015/01/16/write-a-shell-in-c/  
 My own notes for future reference (via Notion)  
 Going to be adding more functionality, thinking of using it to help with AI development 
 
